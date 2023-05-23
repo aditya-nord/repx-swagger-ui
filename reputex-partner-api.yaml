@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  title: ReputeX For Partners
+  version: 1.0.0
+servers:
+  - url: https://api.reputex.io/v1
+  - url: https://dev.reputex.io/v1
+components:
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    ApiSecretAuth:
+      type: apiKey
+      in: header
+      name: x-api-secret
+security:
+  - ApiKeyAuth: []
+    ApiSecretAuth: []
+tags:
+  - name: Manage
+  - name: Weightage
+  - name: Whitelist Cors
+paths:
+  /auth/client-api-key/refresh-key:
+    post:
+      tags:
+        - Manage
+      summary: Client Refresh
+      requestBody:
+        content: {}
+      parameters:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/client-api-key/verify-otp:
+    post:
+      tags:
+        - Manage
+      summary: Verify OTP and Change Key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                otp: '582410'
+      parameters:
+        - name: x-api-secret
+          in: header
+          schema:
+            type: string
+          example: '{{client_secret_key}}'
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{client_access_key}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/client-api-key/change-key-name:
+    put:
+      tags:
+        - Manage
+      summary: Update Client Key Name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                keyName: test key name-2
+      parameters: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /score/weightage/update:
+    post:
+      tags:
+        - Weightage
+      summary: Weightage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                ETH:
+                  UD_MODULE: 0.5
+                  ENS_MODULE: 0.5
+                  NFT_MODULE: 1
+                  APPS_MODULE: 0.5
+                  META_MODULE: 0.5
+                  TX_HISTORY_MODULE: 1
+                  DEFI_PROTOCOL_MODULE: 1
+                  DEFI_CATEGORY_WEIGHTAGE: 1
+                  META_CATEGORY_WEIGHTAGE: 0.2
+                  OVERALL_SCORE_WEIGHTAGE: 0.55
+                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                  NFT_TRANSACTION_WEIGHTAGE: 0.25
+                  DEFI_AAVE_MODULE: 1
+                  DEFI_COMPOUND_MODULE: 0.3
+                  DEFI_CURVE_MODULE: 0.5
+                  DEFI_EULER_MODULE: 0.2
+                  DEFI_ENZYME_MODULE: 1
+                  DEFI_LIDO_MODULE: 0.3
+                  DEFI_TVL_MODULE: 0.5
+                  DEFI_UNISWAP_MODULE: 0.2
+                  DEFI_YEARN_MODULE: 0.2
+                POLYGON:
+                  UD_MODULE: 0.5
+                  NFT_MODULE: 1
+                  APPS_MODULE: 0.5
+                  DEFI_TVL_MODULE: 1
+                  TX_HISTORY_MODULE: 1
+                  DEFI_PROTOCOL_MODULE: 1
+                  DEFI_CATEGORY_WEIGHTAGE: 1
+                  META_CATEGORY_WEIGHTAGE: 0.2
+                  OVERALL_SCORE_WEIGHTAGE: 0.15
+                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                AVAX:
+                  NFT_MODULE: 1
+                  APPS_MODULE: 0.5
+                  DEFI_TVL_MODULE: 1
+                  TX_HISTORY_MODULE: 1
+                  DEFI_PROTOCOL_MODULE: 1
+                  DEFI_CATEGORY_WEIGHTAGE: 1
+                  META_CATEGORY_WEIGHTAGE: 0.2
+                  OVERALL_SCORE_WEIGHTAGE: 0.05
+                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                BSC:
+                  NFT_MODULE: 1
+                  APPS_MODULE: 0.5
+                  DEFI_TVL_MODULE: 1
+                  TX_HISTORY_MODULE: 1
+                  DEFI_PROTOCOL_MODULE: 1
+                  DEFI_CATEGORY_WEIGHTAGE: 1
+                  META_CATEGORY_WEIGHTAGE: 0.2
+                  OVERALL_SCORE_WEIGHTAGE: 0.25
+                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+      parameters: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /score/weightage:
+    get:
+      tags:
+        - Weightage
+      summary: Get Custom Weightage
+      parameters: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/client-profile:
+    get:
+      tags:
+        - Whitelist Cors
+      summary: Get Client Info
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/whitelist-url:
+    post:
+      tags:
+        - Whitelist Cors
+      summary: Whitelist Cors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                corsUrls:
+                  - http://localhost:3004
+                  - http://www.testurl.com
+      parameters: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/whitelist-url/verify:
+    post:
+      tags:
+        - Whitelist Cors
+      summary: VerifyOTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                otp: '281121'
+      parameters: 
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
