@@ -53,7 +53,7 @@ paths:
                     type: string
               example: 
                 success: true
-                data: null
+                data: object
                 message: "OTP has been sent successfully to your email id."
                 error: ""
         '429':
@@ -66,14 +66,14 @@ paths:
                     success:
                       type: boolean
                     data:
-                      type: null
+                      type: object
                     message:
                       type: string
                     error:
                       type: string
                 example:
                   success: false
-                  data: null
+                  data: object
                   message: "Max otp limit reached. Please try after one hour."
                   error: ""
 
@@ -127,14 +127,14 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: null
+                    type: object
                   message:
                     type: string
                   error:
                     type: string
               example:
                 success: false
-                data: null
+                data: object
                 message: "Invalid OTP."
                 error: ""
   
@@ -478,14 +478,14 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: null
+                    type: object
                   message:
                     type: string
                   error:
                     type: string
               example:
                 success: false
-                data: null
+                data: object
                 message: "Weightage does not exists for given access key."
                 error: ""
 
@@ -584,7 +584,7 @@ paths:
                     type: string
               example: 
                 success: true
-                data: null
+                data: object
                 message: "OTP has been sent successfully to your email id."
                 error: ""
         '429':
@@ -597,14 +597,14 @@ paths:
                     success:
                       type: boolean
                     data:
-                      type: null
+                      type: object
                     message:
                       type: string
                     error:
                       type: string
                 example:
                   success: false
-                  data: null
+                  data: object
                   message: "Max otp limit reached. Please try after one hour."
                   error: ""
   /auth/whitelist-url/verify:
@@ -654,14 +654,14 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: null
+                    type: object
                   message:
                     type: string
                   error:
                     type: string
               example:
                 success: false
-                data: null
+                data: object
                 message: "This Otp is already used."
                 error: ""
         '400':
@@ -674,14 +674,14 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: null
+                    type: object
                   message:
                     type: string
                   error:
                     type: string
               example:
                 success: false
-                data: null
+                data: object
                 message: "Invalid Otp."
                 error: ""
         '429':
@@ -694,13 +694,13 @@ paths:
                   success:
                     type: boolean
                   data:
-                    type: null
+                    type: object
                   message:
                     type: string
                   error:
                     type: string
               example:
                 success: false
-                data: null
+                data: object
                 message: "Max attempt reached. Please try new otp."
                 error: ""
