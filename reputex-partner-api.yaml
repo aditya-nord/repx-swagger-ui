@@ -153,7 +153,6 @@ paths:
                   type: string
               example:
                 keyName: test key name
-      parameters: 
       responses:
         '200':
           description: Success response
@@ -300,60 +299,6 @@ paths:
                       type: number
                   
             example:
-                ETH:
-                  UD_MODULE: 0.5
-                  ENS_MODULE: 0.5
-                  NFT_MODULE: 1
-                  APPS_MODULE: 0.5
-                  META_MODULE: 0.5
-                  TX_HISTORY_MODULE: 1
-                  DEFI_PROTOCOL_MODULE: 1
-                  DEFI_CATEGORY_WEIGHTAGE: 1
-                  META_CATEGORY_WEIGHTAGE: 0.2
-                  OVERALL_SCORE_WEIGHTAGE: 0.55
-                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
-                  NFT_TRANSACTION_WEIGHTAGE: 0.25
-                  DEFI_AAVE_MODULE: 1
-                  DEFI_COMPOUND_MODULE: 0.3
-                  DEFI_CURVE_MODULE: 0.5
-                  DEFI_EULER_MODULE: 0.2
-                  DEFI_ENZYME_MODULE: 1
-                  DEFI_LIDO_MODULE: 0.3
-                  DEFI_TVL_MODULE: 0.5
-                  DEFI_UNISWAP_MODULE: 0.2
-                  DEFI_YEARN_MODULE: 0.2
-                POLYGON:
-                  UD_MODULE: 0.5
-                  NFT_MODULE: 1
-                  APPS_MODULE: 0.5
-                  DEFI_TVL_MODULE: 1
-                  TX_HISTORY_MODULE: 1
-                  DEFI_PROTOCOL_MODULE: 1
-                  DEFI_CATEGORY_WEIGHTAGE: 1
-                  META_CATEGORY_WEIGHTAGE: 0.2
-                  OVERALL_SCORE_WEIGHTAGE: 0.15
-                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
-                AVAX:
-                  NFT_MODULE: 1
-                  APPS_MODULE: 0.5
-                  DEFI_TVL_MODULE: 1
-                  TX_HISTORY_MODULE: 1
-                  DEFI_PROTOCOL_MODULE: 1
-                  DEFI_CATEGORY_WEIGHTAGE: 1
-                  META_CATEGORY_WEIGHTAGE: 0.2
-                  OVERALL_SCORE_WEIGHTAGE: 0.05
-                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
-                BSC:
-                  NFT_MODULE: 1
-                  APPS_MODULE: 0.5
-                  DEFI_TVL_MODULE: 1
-                  TX_HISTORY_MODULE: 1
-                  DEFI_PROTOCOL_MODULE: 1
-                  DEFI_CATEGORY_WEIGHTAGE: 1
-                  META_CATEGORY_WEIGHTAGE: 0.2
-                  OVERALL_SCORE_WEIGHTAGE: 0.25
-                  CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
-      parameters: 
       responses:
         '200':
           description: Successful response
@@ -674,7 +619,6 @@ paths:
               type: object
               example:
                 otp: '281121'
-      parameters: 
       responses:
         '200':
           description: Success response
