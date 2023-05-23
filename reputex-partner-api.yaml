@@ -26,69 +26,175 @@ security:
   - ApiKeyAuth: []
     ApiSecretAuth: []
 tags:
-  - name: Manage
-  - name: Weightage
+  - name: Manage API Key
   - name: Whitelist Cors
+  - name: Weightage
 paths:
   /auth/client-api-key/refresh-key:
     post:
       tags:
-        - Manage
-      summary: Client Refresh
-      requestBody:
-        content: {}
-      parameters:
+        - Manage API Key
+      summary: Initiate the refreshing of the Client API Secret Key.
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example: 
+                success: true
+                data: null
+                message: "OTP has been sent successfully to your email id."
+                error: ""
+        '429':
+            description: Too Many Requests
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      type: null
+                    message:
+                      type: string
+                    error:
+                      type: string
+                example:
+                  success: false
+                  data: null
+                  message: "Max otp limit reached. Please try after one hour."
+                  error: ""
+
   /auth/client-api-key/verify-otp:
     post:
       tags:
-        - Manage
-      summary: Verify OTP and Change Key
+        - Manage API Key
+      summary: Verify OTP and receive updated Client Secret Key.
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              properties:
+                  otp: 
+                    type: string
               example:
                 otp: '582410'
-      parameters:
-        - name: x-api-secret
-          in: header
-          schema:
-            type: string
-          example: '{{client_secret_key}}'
-        - name: x-api-key
-          in: header
-          schema:
-            type: string
-          example: '{{client_access_key}}'
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      secretKey:
+                        type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: true
+                data:
+                  secretKey: "700fbe8884b8ab57544d54855de778fdc946389bf0e9e388a8ad5f85324a294f"
+                message: "Please save your new secret key."
+                error: ""
+        '410':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: null
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: false
+                data: null
+                message: "Invalid OTP."
+                error: ""
+  
   /auth/client-api-key/change-key-name:
     put:
       tags:
-        - Manage
-      summary: Update Client Key Name
+        - Manage API Key
+      summary: Update Client Api Key Name.
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              properties:
+                keyName:
+                  type: string
               example:
-                keyName: test key name-2
+                keyName: test key name
       parameters: 
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      clientSecretId:
+                        type: string
+                      name:
+                        type: string
+                      accessKey:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: true
+                data:
+                  clientSecretId: "04e1099a-c02a-4cb4-b69e-9568ac897883"
+                  name: "key name update"
+                  accessKey: "2373f4f1-7935-41bb-8867-b74af3b76a86"
+                  createdAt: "2023-05-22T03:21:24.989Z"
+                  updatedAt: "2023-05-23T16:10:38.178Z"
+                message: "Updated successfully."
+                error: ""
+  
+  
   /score/weightage/update:
     post:
       tags:
@@ -99,7 +205,101 @@ paths:
           application/json:
             schema:
               type: object
-              example:
+              properties:
+                ETH:
+                  type: object
+                  properties:
+                    UD_MODULE:
+                      type: number
+                    ENS_MODULE:
+                      type: number
+                    NFT_MODULE:
+                      type: number
+                    APPS_MODULE:
+                      type: number
+                    META_MODULE:
+                      type: number
+                    DEFI_TVL_MODULE:
+                      type: number
+                    TX_HISTORY_MODULE:
+                      type: number
+                    DEFI_PROTOCOL_MODULE:
+                      type: number
+                    DEFI_CATEGORY_WEIGHTAGE:
+                      type: number
+                    META_CATEGORY_WEIGHTAGE:
+                      type: number
+                    OVERALL_SCORE_WEIGHTAGE:
+                      type: number
+                    CREDIBILITY_CATEGORY_WEIGHTAGE:
+                      type: number
+                POLYGON:
+                  type: object
+                  properties:
+                    UD_MODULE:
+                      type: number
+                    NFT_MODULE:
+                      type: number
+                    APPS_MODULE:
+                      type: number
+                    DEFI_TVL_MODULE:
+                      type: number
+                    TX_HISTORY_MODULE:
+                      type: number
+                    DEFI_PROTOCOL_MODULE:
+                      type: number
+                    DEFI_CATEGORY_WEIGHTAGE:
+                      type: number
+                    META_CATEGORY_WEIGHTAGE:
+                      type: number
+                    OVERALL_SCORE_WEIGHTAGE:
+                      type: number
+                    CREDIBILITY_CATEGORY_WEIGHTAGE:
+                      type: number
+                AVAX:
+                  type: object
+                  properties:
+                    NFT_MODULE:
+                      type: number
+                    APPS_MODULE:
+                      type: number
+                    DEFI_TVL_MODULE:
+                      type: number
+                    TX_HISTORY_MODULE:
+                      type: number
+                    DEFI_PROTOCOL_MODULE:
+                      type: number
+                    DEFI_CATEGORY_WEIGHTAGE:
+                      type: number
+                    META_CATEGORY_WEIGHTAGE:
+                      type: number
+                    OVERALL_SCORE_WEIGHTAGE:
+                      type: number
+                    CREDIBILITY_CATEGORY_WEIGHTAGE:
+                      type: number
+                BSC:
+                  type: object
+                  properties:
+                    NFT_MODULE:
+                      type: number
+                    APPS_MODULE:
+                      type: number
+                    DEFI_TVL_MODULE:
+                      type: number
+                    TX_HISTORY_MODULE:
+                      type: number
+                    DEFI_PROTOCOL_MODULE:
+                      type: number
+                    DEFI_CATEGORY_WEIGHTAGE:
+                      type: number
+                    META_CATEGORY_WEIGHTAGE:
+                      type: number
+                    OVERALL_SCORE_WEIGHTAGE:
+                      type: number
+                    CREDIBILITY_CATEGORY_WEIGHTAGE:
+                      type: number
+                  
+            example:
                 ETH:
                   UD_MODULE: 0.5
                   ENS_MODULE: 0.5
@@ -159,52 +359,314 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  
   /score/weightage:
     get:
       tags:
         - Weightage
       summary: Get Custom Weightage
-      parameters: 
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      ETH:
+                        type: object
+                        properties:
+                          UD_MODULE:
+                            type: number
+                          ENS_MODULE:
+                            type: number
+                          NFT_MODULE:
+                            type: number
+                          APPS_MODULE:
+                            type: number
+                          META_MODULE:
+                            type: number
+                          DEFI_TVL_MODULE:
+                            type: number
+                          TX_HISTORY_MODULE:
+                            type: number
+                          DEFI_PROTOCOL_MODULE:
+                            type: number
+                          DEFI_CATEGORY_WEIGHTAGE:
+                            type: number
+                          META_CATEGORY_WEIGHTAGE:
+                            type: number
+                          OVERALL_SCORE_WEIGHTAGE:
+                            type: number
+                          CREDIBILITY_CATEGORY_WEIGHTAGE:
+                            type: number
+                      POLYGON:
+                        type: object
+                        properties:
+                          UD_MODULE:
+                            type: number
+                          NFT_MODULE:
+                            type: number
+                          APPS_MODULE:
+                            type: number
+                          DEFI_TVL_MODULE:
+                            type: number
+                          TX_HISTORY_MODULE:
+                            type: number
+                          DEFI_PROTOCOL_MODULE:
+                            type: number
+                          DEFI_CATEGORY_WEIGHTAGE:
+                            type: number
+                          META_CATEGORY_WEIGHTAGE:
+                            type: number
+                          OVERALL_SCORE_WEIGHTAGE:
+                            type: number
+                          CREDIBILITY_CATEGORY_WEIGHTAGE:
+                            type: number
+                      AVAX:
+                        type: object
+                        properties:
+                          NFT_MODULE:
+                            type: number
+                          APPS_MODULE:
+                            type: number
+                          DEFI_TVL_MODULE:
+                            type: number
+                          TX_HISTORY_MODULE:
+                            type: number
+                          DEFI_PROTOCOL_MODULE:
+                            type: number
+                          DEFI_CATEGORY_WEIGHTAGE:
+                            type: number
+                          META_CATEGORY_WEIGHTAGE:
+                            type: number
+                          OVERALL_SCORE_WEIGHTAGE:
+                            type: number
+                          CREDIBILITY_CATEGORY_WEIGHTAGE:
+                            type: number
+                      BSC:
+                        type: object
+                        properties:
+                          NFT_MODULE:
+                            type: number
+                          APPS_MODULE:
+                            type: number
+                          DEFI_TVL_MODULE:
+                            type: number
+                          TX_HISTORY_MODULE:
+                            type: number
+                          DEFI_PROTOCOL_MODULE:
+                            type: number
+                          DEFI_CATEGORY_WEIGHTAGE:
+                            type: number
+                          META_CATEGORY_WEIGHTAGE:
+                            type: number
+                          OVERALL_SCORE_WEIGHTAGE:
+                            type: number
+                          CREDIBILITY_CATEGORY_WEIGHTAGE:
+                            type: number
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: true
+                data:
+                  ETH:
+                    UD_MODULE: 0.5
+                    ENS_MODULE: 0.5
+                    NFT_MODULE: 1
+                    APPS_MODULE: 0.5
+                    META_MODULE: 1
+                    DEFI_TVL_MODULE: 1
+                    TX_HISTORY_MODULE: 1
+                    DEFI_PROTOCOL_MODULE: 1
+                    DEFI_CATEGORY_WEIGHTAGE: 1
+                    META_CATEGORY_WEIGHTAGE: 0.2
+                    OVERALL_SCORE_WEIGHTAGE: 0.55
+                    CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                  POLYGON:
+                    UD_MODULE: 0.5
+                    NFT_MODULE: 1
+                    APPS_MODULE: 0.5
+                    DEFI_TVL_MODULE: 1
+                    TX_HISTORY_MODULE: 1
+                    DEFI_PROTOCOL_MODULE: 1
+                    DEFI_CATEGORY_WEIGHTAGE: 1
+                    META_CATEGORY_WEIGHTAGE: 0.2
+                    OVERALL_SCORE_WEIGHTAGE: 0.15
+                    CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                  AVAX:
+                    NFT_MODULE: 1
+                    APPS_MODULE: 0.5
+                    DEFI_TVL_MODULE: 1
+                    TX_HISTORY_MODULE: 1
+                    DEFI_PROTOCOL_MODULE: 1
+                    DEFI_CATEGORY_WEIGHTAGE: 1
+                    META_CATEGORY_WEIGHTAGE: 0.2
+                    OVERALL_SCORE_WEIGHTAGE: 0.05
+                    CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                  BSC:
+                    NFT_MODULE: 1
+                    APPS_MODULE: 0.5
+                    DEFI_TVL_MODULE: 1
+                    TX_HISTORY_MODULE: 1
+                    DEFI_PROTOCOL_MODULE: 1
+                    DEFI_CATEGORY_WEIGHTAGE: 1
+                    META_CATEGORY_WEIGHTAGE: 0.2
+                    OVERALL_SCORE_WEIGHTAGE: 0.25
+                    CREDIBILITY_CATEGORY_WEIGHTAGE: 0.8
+                message: "Search Successfully Done!"
+                error: ""
+        '400':
+          description: Error response - Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: null
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: false
+                data: null
+                message: "Weightage does not exists for given access key."
+                error: ""
+
+  
+  
   /auth/client-profile:
     get:
       tags:
         - Whitelist Cors
-      summary: Get Client Info
+      summary: Get Client API Key Profile Info.
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      apiRateLimit:
+                        type: integer
+                      whitelistCorsUrl:
+                        type: array
+                        items:
+                          type: string
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      User:
+                        type: object
+                        properties:
+                          emailId:
+                            type: string
+                          mobileNumber:
+                            type: string
+                          createdAt:
+                            type: string
+                            format: date-time
+                          message:
+                            type: string
+                          error:
+                            type: string
+                example:
+                  success: true
+                  data:
+                    apiRateLimit: 1000
+                    whitelistCorsUrl:
+                      - "http://localhost:4300"
+                      - "https://www.reputex.io"
+                    updatedAt: "2023-05-17T04:15:28.643Z"
+                    User:
+                      emailId: "contact@reputex.io"
+                      mobileNumber: "78xxxxxx23"
+                      createdAt: "2023-05-17T02:53:51.667Z"
+                  message: "OK"
+                  error: ""
+
   /auth/whitelist-url:
     post:
       tags:
         - Whitelist Cors
-      summary: Whitelist Cors
+      summary: Whitelist All Origin URLs for API Key.
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              example:
+              properties:
                 corsUrls:
-                  - http://localhost:3004
-                  - http://www.testurl.com
-      parameters: 
+                  type: array
+                  items:
+                    type: string
+            example:
+              corsUrls:
+                - http://localhost:3204
+                - http://www.testurl.com
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example: 
+                success: true
+                data: null
+                message: "OTP has been sent successfully to your email id."
+                error: ""
+        '429':
+            description: Too Many Requests
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      type: null
+                    message:
+                      type: string
+                    error:
+                      type: string
+                example:
+                  success: false
+                  data: null
+                  message: "Max otp limit reached. Please try after one hour."
+                  error: ""
   /auth/whitelist-url/verify:
     post:
       tags:
         - Whitelist Cors
-      summary: VerifyOTP
+      summary: Verify OTP to complete whitelisting of Origin URLs.
       requestBody:
         content:
           application/json:
@@ -215,6 +677,86 @@ paths:
       parameters: 
       responses:
         '200':
-          description: Successful response
+          description: Success response
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: true
+                data:
+                  - "http://localhost:3204"
+                  - "http://www.testurl.com"
+                message: "Successfully updated new cors urls."
+                error: ""
+        '410':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: null
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: false
+                data: null
+                message: "This Otp is already used."
+                error: ""
+        '400':
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: null
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: false
+                data: null
+                message: "Invalid Otp."
+                error: ""
+        '429':
+          description: Error response - Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: null
+                  message:
+                    type: string
+                  error:
+                    type: string
+              example:
+                success: false
+                data: null
+                message: "Max attempt reached. Please try new otp."
+                error: ""
